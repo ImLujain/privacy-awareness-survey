@@ -32,22 +32,30 @@ export default {
     const fingerprint = ref(null);
 
     const getFingerprint = async () => {
-      try {
-        // Get fingerprint details
-        const fp = await FingerprintJS.load();
-        const result = await fp.get();
+  try {
+    // Get fingerprint details
+    const fp = await FingerprintJS.load();
+    const result = await fp.get();
 
-        // Get battery details
-        const battery = await navigator.getBattery();
-        result.components["BattryLevel"] = {value: battery.level * 100 + "%"};
-        result.components["BattreyCharging"] = {value: battery.charging ? "Charging" : "Not Charging"};
+    // Check if navigator.getBattery is supported
+    if (typeof navigator.getBattery === "function") {
+      // Get battery details
+      const battery = await navigator.getBattery();
+      result.components["BattryLevel"] = {value: battery.level * 100 + "%"};
+      result.components["BattreyCharging"] = {value: battery.charging ? "Charging" : "Not Charging"};
+    } else {
+      // Handle browsers where getBattery is not supported
+      result.components["BattryLevel"] = {value: "Not Supported"};
+      result.components["BattreyCharging"] = {value: "Not Supported"};
+    }
 
-        result.components = filterImportantValues(result.components);
-        fingerprint.value = result;
-      } catch (error) {
-        console.error("Error fetching fingerprint:", error);
-      }
-    };
+    result.components = filterImportantValues(result.components);
+    fingerprint.value = result;
+  } catch (error) {
+    console.error("Error fetching fingerprint:", error);
+  }
+};
+
 
     const filterImportantValues = (components) => {
       // Updated list of properties to keep based on your request
