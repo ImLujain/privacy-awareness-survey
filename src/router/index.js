@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import LandingPage from '../components/LandingPage.vue';
 import SurveyPage from '../components/SurveyPage.vue';
-import ThankYouPage from '../components/ThankYouPage.vue';
+import FingerprintPage from '../components/FingerprintPage.vue';
 
 const routes = [
   {
@@ -15,9 +15,9 @@ const routes = [
     component: SurveyPage,
   },
   {
-    path: '/thankyou',
-    name: 'ThankYouPage',
-    component: ThankYouPage,
+    path: '/fingerprint',
+    name: 'FingerprintPage',
+    component: FingerprintPage,
   },
 ];
 

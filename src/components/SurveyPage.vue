@@ -175,15 +175,12 @@ const surveyJson = {
 const saveResultsToBackend = async (data) => {
     console.log("Sending data to backend:", data);
     
-    // const csvData = convertToCSV([data]); // Convert the results to CSV
 
     try {
         await axios.post('http://localhost:3000/api/save-survey-results', data, {
-            headers: {
-               // 'Content-Type': 'text/csv'
-            }
+
         });
-        router.push('/thankyou');
+        router.push('/fingerprint');
     } catch (error) {
         alert('Error saving results. Please try again.');
     }

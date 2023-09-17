@@ -7,3 +7,6 @@ Heard of Web Trackers,Familiar with Browser Fingerprinting,What Web Trackers Col
 "notSure","no","","","occasionally","neutral","stronglyAgree","19-25","intermediate"
 "yes","no","duration","identifyAndTrack","occasionally","somewhatConcerned","disagree","19-25","beginner"
 "","","personalInfo","securityMethod","no","veryConcerned","neutral","36-50","beginner"
+"no","yes","none","identifyAndTrack","notSure","somewhatConcerned","agree","above50","advanced"
+"yes","yes","notSure","uniqueID","notSure","somewhatConcerned","stronglyAgree","36-50","expert"
+"","","","notSure","","","","",""
