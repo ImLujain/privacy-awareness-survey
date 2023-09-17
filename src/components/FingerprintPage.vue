@@ -49,12 +49,21 @@ export default {
       result.components["BattreyCharging"] = {value: "Not Supported"};
     }
 
+    // Fetch timezone details
+    try {
+      result.components["Timezone"] = {value: Intl.DateTimeFormat().resolvedOptions().timeZone};
+    } catch (err) {
+      result.components["Timezone"] = {value: "Error fetching timezone"};
+    }
+
     result.components = filterImportantValues(result.components);
     fingerprint.value = result;
+
   } catch (error) {
     console.error("Error fetching fingerprint:", error);
   }
 };
+
 
 
     const filterImportantValues = (components) => {
