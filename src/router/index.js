@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import LandingPage from '../components/LandingPage.vue';
 import SurveyPage from '../components/SurveyPage.vue';
 import FingerprintPage from '../components/FingerprintPage.vue';
+import FinalSurveyPage from '../components/FinalSurveyPage.vue';
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: '/fingerprint',
     name: 'FingerprintPage',
     component: FingerprintPage,
+  },
+  {
+    path: '/finalsurvey',
+    name: 'FinalSurveyPage',
+    component: FinalSurveyPage,
   },
 ];
 

@@ -9,6 +9,7 @@ app.use(cors({ origin: '*' }));
 app.use(express.json());
 
 const CSV_FILE_PATH = path.resolve(__dirname, 'survey_results.csv');
+const CSV_FINAL_FILE_PATH = path.resolve(__dirname, 'final_survey_results.csv');
 
 app.post('/api/save-survey-results', (req, res) => {
     console.log("Received request with data:", req.body);
@@ -31,6 +32,27 @@ app.post('/api/save-survey-results', (req, res) => {
     });
 });
 
+app.post('/api/save-final-survey-results', (req, res) => {
+    console.log("Received request with data:", req.body);
+
+    // Convert the data into CSV format
+    const csvData = convertFinalSurveyDataToCsv(req.body);
+
+    // Check if CSV file exists, if not create with headers
+    if (!fs.existsSync(CSV_FINAL_FILE_PATH)) {
+        const headers = getSurveyCsvHeaders();
+        fs.writeFileSync(CSV_FINAL_FILE_PATH, headers + '\n');
+    }
+
+    fs.appendFile(CSV_FINAL_FILE_PATH, csvData + '\n', (err) => {
+        if (err) {
+            console.error('Failed to save CSV data:', err);
+            return res.status(500).send('Failed to save data.');
+        }
+        res.send('Data saved successfully.');
+    });
+});
+
 const convertSurveyDataToCsv = (data) => {
     // Create an array of values for each survey question
     const values = [
@@ -43,6 +65,19 @@ const convertSurveyDataToCsv = (data) => {
         data.knowledgeAboutInformationCollected || "",
         data.ageRange || "",
         data.techSavviness || ""
+    ];
+    
+    return values.map(val => `"${val}"`).join(','); // Wrap each value with quotes and join with commas
+};
+
+const convertFinalSurveyDataToCsv = (data) => {
+    // Create an array of values for each survey question
+    const values = [
+        data.awarenessOfDataCollection || "",
+        data.concernAboutDataPrivacy || "",
+        data.browserFingerprintingConsent || "",
+        data.actionAfterSeeingFingerprint || "",
+
     ];
     
     return values.map(val => `"${val}"`).join(','); // Wrap each value with quotes and join with commas

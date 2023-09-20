@@ -2,6 +2,7 @@
   <div class="container mt-5">
     <p class="h4">Do you want to see your web fingerprint?</p>
     <button @click="getFingerprint" class="btn btn-primary mt-3">YES</button>
+    <button @click="goToFinalSurvey" class="btn btn-secondary mt-3">Go to Final Survey</button>
     <div v-if="fingerprint" class="mt-4">
       <p class="h5"><strong>Visitor ID:</strong> {{ fingerprint.visitorId }}</p>
       <h3 class="h6 mt-4">Components:</h3>
@@ -26,8 +27,16 @@
 <script>
 import { ref, onUnmounted  } from 'vue';
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
+// import { useRouter } from 'vue-router'; 
 
+
+// const router = useRouter();
 export default {
+  methods: {
+    goToFinalSurvey() {
+      this.$router.push('/finalsurvey');
+    }
+  },
   setup() {
     let intervalID;
     const fingerprint = ref(null);
@@ -125,9 +134,9 @@ onUnmounted(() => {
     return {
       fingerprint,
       getFingerprint,
-      stringifyValue
-      
+      stringifyValue,
     };
+    
   }
 };
 </script>
