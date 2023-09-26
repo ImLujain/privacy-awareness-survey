@@ -1,30 +1,39 @@
 <template>
-    <div class="container mt-5">
-      <div class="language-switcher">
-        <button @click="setLanguage('en')" :class="{'active': currentLanguage === 'en'}">English</button>
-        <button @click="setLanguage('ar')" :class="{'active': currentLanguage === 'ar'}">عربى</button>
-      </div>
+    <div class="container-fluid p-0">
+        <header class="bg-primary text-white p-2">
+            <div class="container">
+                <div class="d-flex justify-content-end">
+                    <button @click="setLanguage('en')" :class="['btn', 'btn-outline-light', {'active': currentLanguage === 'en'}]">English</button>
+                    <button @click="setLanguage('ar')" :class="['btn', 'btn-outline-light', 'ms-2', {'active': currentLanguage === 'ar'}]">عربى</button>
+                </div>
+            </div>
+        </header>
 
-      <h1 class="display-4 text-center" :dir="direction">{{ title }}</h1>
-  
-      <div class="mt-4 mb-4">
-        <h2 class="text-center">{{ webTrackersTitle }}</h2>
-        <p class="lead" :dir="direction">
-          {{ webTrackersDescription }}
-        </p>
-  
-        <h2 class="text-center mt-4">{{ browserFingerprintTitle }}</h2>
-        <p class="lead" :dir="direction">
-          {{ browserFingerprintDescription }}
-        </p>
-      </div>
-  
-      <div class="d-flex justify-content-center">
-        <button @click="goToSurvey" class="btn btn-primary btn-lg">{{ nextText }}</button>
-      </div>
+        <div class="container mt-5">
+            <h1 class="display-4 text-center mb-5 animate__animated animate__fadeInDown" :dir="direction">{{ title }}</h1>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card my-4 p-4 h-100 animate__animated animate__fadeInLeft">
+                        <h2 class="text-center">{{ webTrackersTitle }}</h2>
+                        <p class="lead text-center" :dir="direction">{{ webTrackersDescription }}</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card my-4 p-4 h-100 animate__animated animate__fadeInRight">
+                        <h2 class="text-center">{{ browserFingerprintTitle }}</h2>
+                        <p class="lead text-center" :dir="direction">{{ browserFingerprintDescription }}</p>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="d-flex justify-content-center mt-4">
+                <button @click="goToSurvey" class="btn btn-primary btn-lg animate__animated animate__bounce">{{ nextText }}</button>
+            </div>
+        </div>
     </div>
 </template>
-
 <script>
 export default {
     data() {
@@ -85,6 +94,8 @@ export default {
 </script>
 
 <style scoped>
+@import '~animate.css';
+
 .language-switcher {
     display: flex;
     justify-content: center;
@@ -109,5 +120,23 @@ export default {
 
 .language-switcher button:hover {
     background-color: #2980b9;
+}
+
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0;
+}
+
+
+header {
+    border-bottom: 1px solid #fff;
+}
+
+.language-switcher button.active, .btn-outline-light.active {
+    background-color: #97b8e9 !important;
+    color: #fff !important;
 }
 </style>

@@ -3,6 +3,13 @@
     <p class="h4">Do you want to see your web fingerprint?</p>
     <button @click="getFingerprint" class="btn btn-primary mt-3">YES</button>
     <button @click="goToFinalSurvey" class="btn btn-secondary mt-3">Go to Final Survey</button>
+    <button v-if="fingerprint" @click="analyzeFingerprint" class="btn btn-info mt-3">Analyze Fingerprint</button>
+    
+    <div v-if="gptResponse" class="mt-4">
+      <h4>GPT-4 Analysis:</h4>
+      <p>{{ gptResponse }}</p>
+    </div>
+    
     <div v-if="fingerprint" class="mt-4">
       <p class="h5"><strong>Visitor ID:</strong> {{ fingerprint.visitorId }}</p>
       <h3 class="h6 mt-4">Components:</h3>
@@ -25,14 +32,49 @@
 </template>
 
 <script>
-import { ref, onUnmounted  } from 'vue';
+import { ref, onUnmounted } from 'vue';
+import axios from 'axios';
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
-// import { useRouter } from 'vue-router'; 
 
 
 // const router = useRouter();
 export default {
+
+  data() {
+    return {
+      gptResponse: null,
+    };
+  },
   methods: {
+    async analyzeFingerprint() {
+      // const key = "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";
+      try {
+        let message = "The user has the following browser fingerprint values:\n";
+        for (const [key, value] of Object.entries(this.fingerprint.components)) {
+          message += `${key}: ${this.stringifyValue(value.value)}\n`;
+        }
+        message += "how knwowing these values about a user can be dangerous";
+        message += "make the answer specific to the values sent";
+        message += "and justify how can attacker use these values to attack users";
+          // console.log(message)
+        
+        const response = await axios.post('https://api.openai.com/v1/completions', {
+          prompt: message,
+          temperature: 0,
+          max_tokens: 500,
+          model: "text-davinci-003"
+        }, {
+          headers: {
+            'Authorization': `Bearer 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`
+          }
+        });
+        
+        this.gptResponse = response.data.choices[0].text.trim();
+        console.log(this.gptResponse)
+      } catch (error) {
+        console.error("Error interacting with GPT-4: ", error);
+      }
+    },
     goToFinalSurvey() {
       this.$router.push('/finalsurvey');
     }
